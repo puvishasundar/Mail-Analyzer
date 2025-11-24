@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MailAnalyzer — Ultra Colorful + Advanced</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-dark:#0b0210; /* deep near-black */
+    --accent-pink:#ff5fa8;
+    --accent-deep:#9b0f4b;
+    --gold:#d4af37;
+    --muted:#cda0c0;
+    --glass: rgba(255,255,255,0.04);
+    --glass-2: rgba(255,255,255,0.02);
+    --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    --radius:16px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;font-family:Inter, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:
+      radial-gradient(800px 300px at 10% 10%, rgba(255,90,150,0.06), transparent),
+      radial-gradient(700px 260px at 90% 90%, rgba(212,175,55,0.02), transparent),
+      linear-gradient(180deg,var(--bg-dark), #140315 80%);
+    color:#ffdfe9;
+    -webkit-font-smoothing:antialiased;
+    padding:28px;
+  }
+
+  /* container */
+  .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr .7fr;gap:22px;align-items:start}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{
+    width:68px;height:68px;border-radius:14px;
+    background:linear-gradient(135deg,#ffcce6,#ffd9ec);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 40px rgba(155,15,75,0.12), inset 0 2px 8px rgba(255,255,255,0.3);
+    border:2px solid rgba(212,175,55,0.18);position:relative;overflow:hidden;
+  }
+  .logo svg{width:40px;height:40px;filter:drop-shadow(0 8px 12px rgba(155,15,75,0.12))}
+  h1{margin:0;font-size:20px;font-weight:700;color:var(--gold);text-shadow:0 8px 30px rgba(153,33,88,0.06)}
+  .ver{font-size:12px;color:var(--muted)}
+
+  /* particles & butterflies */
+  .particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .particle{position:absolute;border-radius:50%;mix-blend-mode:screen}
+  .butter{position:absolute;mix-blend-mode:screen;filter:blur(.3px)}
+
+  /* left column - main */
+  .panel{
+    padding:20px;border-radius:var(--radius);
+    background:var(--card-bg);border:1px solid rgba(212,175,55,0.06);
+    box-shadow:0 12px 40px rgba(0,0,0,0.6);
+    position:relative;backdrop-filter: blur(6px);z-index:2;
+  }
+
+  .hero{
+    display:flex;gap:18px;align-items:center;margin-bottom:10px;
+  }
+  .hero .title{flex:1}
+  .hero h2{margin:0;font-size:22px;color:#ffdfe9;font-weight:700;letter-spacing:0.2px}
+  .hero p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+  /* textarea */
+  .input-panel{margin-top:12px;display:flex;flex-direction:column;gap:12px}
+  textarea#emailContent{
+    width:100%;min-height:240px;resize:vertical;padding:14px;border-radius:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(212,175,55,0.06);color:#ffe8f5;font-size:14px;outline:none;
+    box-shadow: inset 0 6px 18px rgba(155,15,75,0.04);
+    line-height:1.45;
+  }
+  ::placeholder{color:#ffb6da88}
+
+  /* controls */
+  .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .left-controls{display:flex;gap:10px;align-items:center}
+  .btn{
+    padding:10px 16px;border-radius:12px;border:none;font-weight:700;cursor:pointer;
+    background:linear-gradient(135deg,var(--gold),#ffdd7a);color:#2b0016;box-shadow:0 12px 30px rgba(212,175,55,0.12);
+    position:relative;overflow:hidden;
+  }
+  .btn.secondary{
+    background:linear-gradient(135deg,#ff6fa8,#c61a63);color:#fff;box-shadow:0 10px 30px rgba(155,15,75,0.12)
+  }
+  .btn.ghost{
+    background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);box-shadow:none;font-weight:600;
+  }
+  .btn.small{padding:8px 12px;font-size:13px;border-radius:10px}
+
+  .scan-mode{display:flex;gap:8px;align-items:center}
+  .mode-chip{padding:8px 10px;border-radius:999px;background:linear-gradient(90deg,#2b0016,#3b001f);color:#ffdfe9;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+
+  .stats-row{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+  .mini-card{flex:1;min-width:140px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(212,175,55,0.04)}
+  .mini-card .k{font-size:12px;color:var(--muted)}
+  .mini-card .v{font-weight:700;font-size:16px;margin-top:6px;color:#fff}
+
+  /* result area */
+  .result-wrap{display:flex;gap:12px;margin-top:14px;align-items:flex-start}
+  .result-card{flex:1;padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);min-height:120px}
+  .alert-danger{background:linear-gradient(135deg,#45081a,#7a0f3e);color:#fff;border:1px solid rgba(255,120,160,0.06)}
+  .alert-safe{background:linear-gradient(135deg,#2b0016,#4a002a);color:#fff;border:1px solid rgba(212,175,55,0.06)}
+
+  .visual-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+  .shield{width:92px;height:92px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700}
+  .shield.danger{background:linear-gradient(135deg,#3b0f25,#7a0f3e);box-shadow:0 12px 40px rgba(139,12,52,0.3)}
+  .shield.safe{background:linear-gradient(135deg,#ffd9ec,#ffb6d8);color:#6a1b45;box-shadow:0 12px 60px rgba(255,182,193,0.12)}
+
+  .summary-text{font-weight:700;font-size:15px}
+
+  /* dashboard right column */
+  .sidebar-panel{padding:20px;border-radius:var(--radius);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(212,175,55,0.06);box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+  .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .dashboard-card{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02)}
+  .card-title{font-size:12px;color:var(--muted)}
+  .card-value{font-weight:800;font-size:18px;margin-top:8px;color:#fff}
+
+  /* keyword list */
+  .kw-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .kw-pill{padding:6px 8px;border-radius:8px;background:linear-gradient(90deg,#3b001f,#5a0030);color:#ffdfe9;font-size:13px;border:1px solid rgba(255,255,255,0.03)}
+
+  /* history */
+  .history-list{margin-top:12px;display:flex;flex-direction:column;gap:8px;max-height:280px;overflow:auto;padding-right:6px}
+  .history-item{display:flex;justify-content:space-between;gap:8px;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.03)}
+  .history-item .left{flex:1}
+  .history-item .time{font-size:12px;color:var(--muted)}
+
+  /* radar and history chart canvas */
+  canvas{width:100%;height:160px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));display:block}
+
+  /* footer */
+  footer{margin-top:18px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+
+  /* responsive */
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    .sidebar-panel{order:2}
+  }
+
+  /* little sparkle animation for scan button */
+  .glitter{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+  .glitter span{position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#fff,#ffd87a);opacity:.9;transform:translate3d(0,0,0)}
+</style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden>
+        <!-- Luxury logo SVG -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#ffd9ec"/>
+              <stop offset="1" stop-color="#ffb6d8"/>
+            </linearGradient>
+          </defs>
+          <rect x="4" y="6" rx="9" ry="9" width="40" height="36" fill="url(#g)"/>
+          <path d="M24 10 L30 22 L18 22 Z" fill="#8b064a" opacity="0.95"/>
+        </svg>
+      </div>
+      <div>
+        <h1>MailAnalyzer</h1>
+        <div class="ver">AI Email Safety Scanner — ultra-colorful + ultra-smart</div>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="ver">v2.1 • Offline demo</div>
+        <button id="themeToggle" class="btn small ghost" title="Toggle theme">Colorful Mode</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- LEFT: MAIN -->
+    <section class="panel" aria-labelledby="mainTitle" id="mainPanel">
+      <div class="hero">
+        <div class="title">
+          <h2 id="mainTitle">MailAnalyzer — Paste email to scan</h2>
+          <p>Paste headers + body (or sample text). Click <strong>Scan</strong> (Quick/Deep) for advanced offline analysis.</p>
+        </div>
+        <div style="text-align:right">
+          <div class="ver">Ultra-luxe • Feminine • Secure</div>
+        </div>
+      </div>
+
+      <div class="input-panel">
+        <textarea id="emailContent" placeholder="Paste full email (headers & body) here..."></textarea>
+
+        <div class="controls">
+          <div class="left-controls">
+            <div class="scan-mode">
+              <div class="mode-chip" id="modeQuick" data-mode="quick">Quick</div>
+              <div class="mode-chip" id="modeDeep" data-mode="deep" style="background:linear-gradient(90deg,#3b001f,#5a0030)">Deep</div>
+            </div>
+            <button id="scanBtn" class="btn secondary">Run Safety Scan</button>
+            <button id="clearBtn" class="btn ghost small">Clear</button>
+            <button id="copyBtn" class="btn ghost small">Copy Result</button>
+            <button id="downloadBtn" class="btn ghost small">Download Report</button>
+          </div>
+
+          <div style="margin-left:auto;text-align:right">
+            <div id="wordCount" class="ver">Words: 0 • Chars: 0</div>
+            <div class="ver" id="lastScan">Last scan: —</div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="mini-card"><div class="k">Scan Speed</div><div class="v" id="scanSpeed">—</div></div>
+          <div class="mini-card"><div class="k">Privacy</div><div class="v">Local • Offline</div></div>
+          <div class="mini-card"><div class="k">Mode</div><div class="v" id="scanModeLabel">Quick</div></div>
+        </div>
+
+        <div class="result-wrap" id="resultWrap" style="display:none">
+          <div class="result-card" id="visualCard">
+            <div class="visual-center">
+              <div class="shield" id="shield">✓</div>
+              <div class="summary-text" id="summaryText">—</div>
+              <div id="summarySub" style="color:var(--muted);font-size:13px"></div>
+            </div>
+          </div>
+
+          <div class="result-card" id="detailsCard">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-weight:700">Smart Analysis</div>
+              <div style="font-size:13px;color:var(--muted)" id="riskScore">Risk: —</div>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="card-title">Keywords</div>
+              <div class="kw-list" id="kwList"></div>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="card-title">Links Found</div>
+              <div id="linksList" style="margin-top:8px"></div>
+            </div>
+
+            <div style="margin-top:10px">
+              <div class="card-title">AI Explanation</div>
+              <div id="aiExplain" style="margin-top:8px;color:var(--muted);font-size:13px">Friendly explanation will appear here.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <canvas id="radarCanvas" width="400" height="220" style="height:160px"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: DASHBOARD -->
+    <aside class="sidebar-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-weight:700">Analysis Dashboard</div>
+        <div style="font-size:12px;color:var(--muted)">Local • Demo</div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-title">Spam Probability</div>
+          <div class="card-value" id="spamProb">—%</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-title">Phishing Probability</div>
+          <div class="card-value" id="phishProb">—%</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-title">Domain Reputation</div>
+          <div class="card-value" id="domainRep">—</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-title">Attachment Safety</div>
+          <div class="card-value" id="attachStat">—</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="card-title">Sender Verification</div>
+        <div style="font-weight:700;margin-top:6px" id="senderVer">SPF: N/A • DKIM: N/A • DMARC: N/A</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="card-title">Scan History</div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="card-title">History Graph</div>
+        <canvas id="historyChart" width="300" height="120" style="height:90px"></canvas>
+      </div>
+
+      <footer>
+        <div style="color:var(--muted)">Tip: Always verify suspicious links via separate channels.</div>
+        <div style="color:var(--muted);font-size:12px">© MailAnalyzer</div>
+      </footer>
+    </aside>
+  </div>
+
+<script>
+/* ============================
+   Utility & Visual Generators
+   ============================ */
+
+const particlesEl = document.getElementById('particles');
+function makeParticles(n=24){
+  for(let i=0;i<n;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const size = 6 + Math.round(Math.random()*18);
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random()*100 + '%';
+    p.style.top = Math.random()*100 + '%';
+    p.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), ${tinyGold()})`;
+    p.style.opacity = (0.2 + Math.random()*0.85);
+    particlesEl.appendChild(p);
+    animateParticle(p);
+  }
+}
+function tinyGold(){ return 'rgba(212,175,55,' + (0.7 + Math.random()*0.2) + ')';}
+function animateParticle(el){
+  const dur = 9000 + Math.random()*12000;
+  const dx = -40 + Math.random()*80;
+  const dy = -40 + Math.random()*80;
+  el.animate([{transform:`translate(0,0)`},{transform:`translate(${dx}px,${dy}px)`}],{duration:dur,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+}
+makeParticles(28);
+
+/* subtle butterflies */
+for(let i=0;i<6;i++){
+  const b = document.createElement('div'); b.className='butter';
+  const size = 8+Math.random()*20; b.style.width=size+'px'; b.style.height=size+'px';
+  b.style.left = (5 + i*15 + Math.random()*6) + '%';
+  b.style.top = (10 + Math.random()*60) + '%';
+  b.style.background = `radial-gradient(circle at 30% 30%, #fff, ${i%2? '#ffd1eb':'#ffebd1'})`;
+  b.style.opacity = 0.85;
+  particlesEl.appendChild(b);
+  b.animate([{transform:'translateY(0) rotate(0deg)'},{transform:`translateY(${ -10 - Math.random()*30 }px) rotate(${30+Math.random()*80}deg)`},{transform:'translateY(0) rotate(0deg)'}],{duration:2500 + Math.random()*2100,iterations:Infinity,easing:'ease-in-out'});
+}
+
+/* ============================
+   DOM references
+   ============================ */
+const emailArea = document.getElementById('emailContent');
+const scanBtn = document.getElementById('scanBtn');
+const clearBtn = document.getElementById('clearBtn');
+const copyBtn = document.getElementById('copyBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const wordCount = document.getElementById('wordCount');
+const lastScan = document.getElementById('lastScan');
+const scanModeLabel = document.getElementById('scanModeLabel');
+const modeQuick = document.getElementById('modeQuick');
+const modeDeep = document.getElementById('modeDeep');
+
+const resultWrap = document.getElementById('resultWrap');
+const shield = document.getElementById('shield');
+const summaryText = document.getElementById('summaryText');
+const summarySub = document.getElementById('summarySub');
+const kwList = document.getElementById('kwList');
+const linksList = document.getElementById('linksList');
+const aiExplain = document.getElementById('aiExplain');
+
+const spamProbEl = document.getElementById('spamProb');
+const phishProbEl = document.getElementById('phishProb');
+const domainRepEl = document.getElementById('domainRep');
+const attachStatEl = document.getElementById('attachStat');
+const senderVerEl = document.getElementById('senderVer');
+const riskScoreEl = document.getElementById('riskScore');
+
+const historyListEl = document.getElementById('historyList');
+const radarCanvas = document.getElementById('radarCanvas');
+const historyChart = document.getElementById('historyChart');
+
+let currentMode = 'quick';
+
+/* ============================
+   Word counter / live UI
+   ============================ */
+function updateCounters(){
+  const text = emailArea.value;
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const chars = text.length;
+  wordCount.textContent = `Words: ${words} • Chars: ${chars}`;
+}
+emailArea.addEventListener('input', updateCounters);
+
+/* mode toggle */
+modeQuick.addEventListener('click', ()=>{ currentMode='quick'; scanModeLabel.textContent='Quick'; modeQuick.style.opacity=1; modeDeep.style.opacity=0.8; });
+modeDeep.addEventListener('click', ()=>{ currentMode='deep'; scanModeLabel.textContent='Deep'; modeDeep.style.opacity=1; modeQuick.style.opacity=0.8; });
+
+/* ============================
+   Analysis Engine (offline heuristics)
+   ============================ */
+
+function extractLinks(text){
+  const re = /https?:\/\/[^\s)]+/gi;
+  const matches = text.match(re) || [];
+  // normalize
+  return matches.map(u=>u.replace(/[.,;:]+$/,''));
+}
+function extractAttachments(text){
+  const att = [];
+  const t = text.toLowerCase();
+  const types = ['.pdf','.zip','.exe','.scr','.js','.doc','.docx','.xls','.xlsx','.rar','.tar','.7z','.bat','.ps1'];
+  types.forEach(ext=>{ if(t.includes(ext)) att.push(ext); });
+  return [...new Set(att)];
+}
+const suspiciousWords = ['password','verify','account','unauthorized','click','login','urgent','immediately','winner','congratulation','prize','bank','transfer','ssn','identity','reset','confirm','invoice','payment','pay now','credentials','suspend','suspended','billing'];
+
+function domainFromUrl(url){
+  try{ const u = new URL(url); return u.hostname.replace(/^www\./,''); } catch(e){ return url; }
+}
+
+/* heuristic domain reputation (offline): short heuristic */
+function domainReputation(domain){
+  // simple heuristics: suspicious TLDs and length / numeric / hypheniness
+  const badTLDs = ['tk','cf','ml','gq','ga']; // commonly abused
+  const parts = domain.split('.');
+  const tld = parts[parts.length-1] || '';
+  let score = 50;
+  if(tld && badTLDs.includes(tld)) score += 25;
+  if(domain.match(/[0-9]/)) score += 8;
+  if(domain.length < 6) score += 10;
+  if(domain.includes('-')) score += 6;
+  if(domain.includes('login') || domain.includes('secure') || domain.includes('update')) score += 8;
+  score = Math.min(98, Math.max(2, score + (Math.random()*12 - 6)));
+  // map to label
+  const label = score > 70 ? 'Poor' : score > 45 ? 'Fair' : 'Good';
+  return {score: Math.round(score), label};
+}
+
+/* sim sender verifications */
+function simulateSenderChecks(){
+  const spf = Math.random() > 0.35 ? 'pass' : 'fail';
+  const dkim = Math.random() > 0.45 ? 'pass' : 'none';
+  const dmarc = Math.random() > 0.6 ? 'pass' : 'none';
+  return {spf,dkim,dmarc};
+}
+
+/* compute risk components */
+function analyzeText(text, mode='quick'){
+  const lower = text.toLowerCase();
+  const found = suspiciousWords.filter(w=> lower.includes(w));
+  const links = extractLinks(text);
+  const attachments = extractAttachments(text);
+
+  // base probabilities influenced by mode
+  let spam = Math.min(98, Math.floor(6 + found.length*14 + (links.length*9) + Math.random()*30));
+  let phish = Math.min(98, Math.floor(3 + found.length*18 + (links.length*12) + (lower.includes('login')?14:0) + Math.random()*35));
+  if(mode==='deep'){
+    // deep mode increases detection (more sensitive)
+    spam = Math.min(99, spam + 6 + Math.floor(Math.random()*8));
+    phish = Math.min(99, phish + 6 + Math.floor(Math.random()*8));
+  }
+
+  if(text.trim().length < 40){ spam = Math.max(4, spam-12); phish = Math.max(2, phish-12); }
+  if(found.length===0 && links.length===0 && !lower.includes('dear')){ spam = Math.max(2, spam-18); phish = Math.max(1, phish-20); }
+
+  const sender = simulateSenderChecks();
+  const domainInfo = links.length ? domainReputation(domainFromUrl(links[0])) : {score:12,label:'None'};
+
+  // risk breakdown for radar
+  const linkRisk = Math.min(100, links.length*18 + (domainInfo.score>60?14:0));
+  const attachRisk = Math.min(100, attachments.length*30 + (attachments.includes('.exe')?30:0));
+  const senderRisk = Math.min(100, (sender.spf==='fail'?30:5) + (sender.dkim==='none'?20:5) + (sender.dmarc==='none'?10:5));
+  const keywordRisk = Math.min(100, found.length*20);
+  const spamRisk = Math.round((spam + phish)/2);
+
+  const overall = Math.round((spam*0.5 + phish*0.5 + linkRisk*0.3 + attachRisk*0.5 + senderRisk*0.4)/2.2);
+  return {
+    spam, phish, found, links, attachments, sender, domainInfo,
+    breakdown: {linkRisk, attachRisk, senderRisk, keywordRisk, spamRisk}, overall
+  };
+}
+
+/* ============================
+   Render helpers
+   ============================ */
+
+function showResult(res){
+  resultWrap.style.display = 'flex';
+  // set shield & summary
+  const isSafe = (res.spam < 40 && res.phish < 40 && res.overall < 42);
+  shield.className = 'shield ' + (isSafe? 'safe':'danger');
+  shield.textContent = isSafe? '✓' : '⚠';
+  summaryText.textContent = isSafe? 'This Email is Safe & Verified' : 'Suspicious Activity Detected';
+  summarySub.textContent = isSafe? 'No immediate threats found — stay cautious.' : 'Please review sender, links and attachments carefully.';
+  // set small stat panels
+  spamProbEl.textContent = res.spam + '%';
+  phishProbEl.textContent = res.phish + '%';
+  domainRepEl.textContent = res.domainInfo.label + ' (' + res.domainInfo.score + ')';
+  attachStatEl.textContent = res.attachments.length ? res.attachments.join(', ') : 'No attachments';
+  senderVerEl.textContent = `SPF: ${res.sender.spf.toUpperCase()} • DKIM: ${res.sender.dkim.toUpperCase()} • DMARC: ${res.sender.dmarc.toUpperCase()}`;
+  riskScoreEl.textContent = `Risk: ${res.overall}%`;
+
+  // keywords
+  kwList.innerHTML = '';
+  if(res.found.length){
+    res.found.slice(0,12).forEach(k=>{
+      const d = document.createElement('div'); d.className='kw-pill'; d.textContent = k; kwList.appendChild(d);
+    });
+  } else {
+    kwList.innerHTML = '<div style="color:var(--muted);font-size:13px">None detected</div>';
+  }
+
+  // links list
+  linksList.innerHTML = '';
+  if(res.links.length){
+    res.links.forEach(u=>{
+      const dom = domainFromUrl(u);
+      const rep = domainReputation(dom);
+      const card = document.createElement('div'); card.style.display='flex'; card.style.justifyContent='space-between'; card.style.gap='8px'; card.style.padding='6px 0';
+      card.innerHTML = `<div style="font-size:13px;color:#ffdfe9">${dom}</div><div style="font-size:13px;color:${rep.score>65? '#ff8a8a':'#ffdfe9'}">${rep.label} • ${rep.score}</div>`;
+      // clickable preview (opens in new tab if user wants) - show small link below
+      const linkRow = document.createElement('div'); linkRow.style.fontSize='12px'; linkRow.style.color='var(--muted)'; linkRow.style.marginTop='4px';
+      linkRow.textContent = u;
+      card.appendChild(linkRow);
+      linksList.appendChild(card);
+    });
+  } else {
+    linksList.innerHTML = '<div style="color:var(--muted);font-size:13px">No links found</div>';
+  }
+
+  // AI explanation (friendly)
+  aiExplain.textContent = generateExplainText(res);
+
+  // draw radar
+  drawRadar(res.breakdown);
+
+  // update last scan
+  lastScan.textContent = 'Last scan: ' + (new Date()).toLocaleString();
+
+  // save to history
+  const entry = {
+    title: emailArea.value.trim().substring(0,60).replace(/\n/g,' ') + (emailArea.value.length>60? '...':'' ),
+    time: new Date().toLocaleString(),
+    spam: res.spam, phish: res.phish, overall: res.overall,
+    safe: (res.overall < 42)
+  };
+  saveHistory(entry);
+  updateHistoryChart();
+}
+
+/* friendly explanation generator */
+function generateExplainText(res){
+  const parts = [];
+  if(res.found.length) parts.push(`Detected suspicious keywords: ${res.found.slice(0,6).join(', ')}.`);
+  if(res.links.length) parts.push(`Found ${res.links.length} link(s); top domain ${domainFromUrl(res.links[0])} rated ${res.domainInfo.label}.`);
+  if(res.attachments.length) parts.push(`Attachments: ${res.attachments.join(', ')} — treat executables and archives as risky.`);
+  if(res.sender.spf!=='pass') parts.push(`Sender verification not fully passing (SPF/DKIM/DMARC) — verify sender via another channel.`);
+  if(res.overall > 65) parts.push(`High overall risk (${res.overall}%) — treat this email as malicious until proven otherwise.`);
+  else if(res.overall > 40) parts.push(`Moderate risk (${res.overall}%) — suspicious patterns found.`);
+  else parts.push(`Low risk (${res.overall}%) — no major threats detected.`);
+  // combine and return
+  return parts.join(' ');
+}
+
+/* ============================
+   Radar Chart (vanilla canvas)
+   ============================ */
+function drawRadar(breakdown){
+  const c = radarCanvas;
+  const ctx = c.getContext('2d');
+  const W = c.width; const H = c.height;
+  ctx.clearRect(0,0,W,H);
+  const centerX = W/2; const centerY = H/2; const maxR = Math.min(W,H)/2 - 16;
+  const labels = ['Links','Attachments','Sender','Keywords','SpamAvg'];
+  const values = [breakdown.linkRisk, breakdown.attachRisk, breakdown.senderRisk, breakdown.keywordRisk, breakdown.spamRisk].map(v => v/100);
+  const N = labels.length;
+
+  // grid
+  ctx.save();
+  ctx.translate(centerX, centerY);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  for(let r=1;r<=4;r++){
+    ctx.beginPath();
+    const rr = (r/4)*maxR;
+    for(let i=0;i<N;i++){
+      const ang = (Math.PI*2)*(i/N) - Math.PI/2;
+      const x = Math.cos(ang)*rr; const y = Math.sin(ang)*rr;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.stroke();
+  }
+  // axes & labels
+  ctx.fillStyle = '#ffdfe9'; ctx.font = '12px Inter';
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2)*(i/N) - Math.PI/2;
+    const x = Math.cos(ang)* (maxR + 10);
+    const y = Math.sin(ang)* (maxR + 10);
+    ctx.fillText(labels[i], x - (labels[i].length*3), y+4);
+    // axis line
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(ang)*maxR, Math.sin(ang)*maxR); ctx.stroke();
+  }
+
+  // polygon fill
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2)*(i/N) - Math.PI/2;
+    const r = values[i]*maxR;
+    const x = Math.cos(ang)*r; const y = Math.sin(ang)*r;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  // gradient fill
+  const grad = ctx.createLinearGradient(-maxR, -maxR, maxR, maxR);
+  grad.addColorStop(0, 'rgba(255,95,168,0.28)');
+  grad.addColorStop(1, 'rgba(212,175,55,0.18)');
+  ctx.fillStyle = grad; ctx.fill();
+  // stroke
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.restore();
+}
+
+/* ============================
+   History (localStorage)
+   ============================ */
+function loadHistory(){
+  try{ return JSON.parse(localStorage.getItem('mailAnalyzerHistory') || '[]'); } catch(e){ return []; }
+}
+function saveHistoryEntry(entry){
+  const h = loadHistory();
+  h.unshift(entry); if(h.length>18) h.pop();
+  localStorage.setItem('mailAnalyzerHistory', JSON.stringify(h));
+}
+function saveHistory(entry){
+  saveHistoryEntry(entry);
+  renderHistory();
+}
+function renderHistory(){
+  const h = loadHistory();
+  historyListEl.innerHTML = '';
+  if(h.length===0){
+    historyListEl.innerHTML = '<div style="color:var(--muted)">No history yet</div>'; return;
+  }
+  h.forEach(it=>{
+    const div = document.createElement('div'); div.className='history-item';
+    const left = document.createElement('div'); left.className='left';
+    left.innerHTML = `<div style="font-weight:700">${it.title}</div><div class="time">${it.time}</div>`;
+    const right = document.createElement('div'); right.style.textAlign='right';
+    right.innerHTML = `<div style="font-weight:800;color:${it.safe? '#b2ffd9':'#ffb3b3'}">${it.safe? 'Safe':'Suspicious'}</div><div style="font-size:12px;color:var(--muted)">${it.overall}%</div>`;
+    div.appendChild(left); div.appendChild(right);
+    historyListEl.appendChild(div);
+  });
+}
+
+/* history chart */
+function updateHistoryChart(){
+  const data = loadHistory();
+  const ctx = historyChart.getContext('2d');
+  const W = historyChart.width; const H = historyChart.height;
+  ctx.clearRect(0,0,W,H);
+  if(data.length===0) return;
+  // plot last 12 overall risk points
+  const arr = data.slice(0,12).reverse().map(d=>d.overall);
+  const max = 100; const stepX = W / Math.max(1,arr.length-1 || 1);
+  ctx.beginPath(); ctx.moveTo(0, H - (arr[0]/max)*H);
+  for(let i=0;i<arr.length;i++){
+    ctx.lineTo(i*stepX, H - (arr[i]/max)*H);
+  }
+  ctx.strokeStyle = 'rgba(212,175,55,0.9)'; ctx.lineWidth=3; ctx.stroke();
+  // points
+  arr.forEach((v,i)=>{
+    ctx.beginPath(); ctx.arc(i*stepX, H - (v/max)*H, 3, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fill();
+  });
+}
+
+/* ============================
+   Buttons: scan, clear, copy, download
+   ============================ */
+
+function doScan(){
+  const text = emailArea.value || '';
+  if(!text.trim()){
+    alert('Please paste email text to scan.'); emailArea.focus(); return;
+  }
+  // UI: show scanning animation
+  scanBtn.disabled = true; scanBtn.textContent = 'Scanning…';
+  const g = document.createElement('div'); g.className='glitter';
+  for(let i=0;i<8;i++){ const s = document.createElement('span'); s.style.left = Math.random()*100 + '%'; s.style.top = Math.random()*100 + '%'; s.style.opacity = Math.random(); g.appendChild(s); }
+  scanBtn.appendChild(g);
+
+  const start = performance.now();
+  const simulatedDelay = currentMode === 'deep' ? 1200 + Math.random()*900 : 600 + Math.random()*500;
+
+  setTimeout(()=>{
+    const res = analyzeText(text, currentMode);
+    const dur = Math.round(performance.now() - start);
+    document.getElementById('scanSpeed').textContent = (dur+simulatedDelay)+'ms';
+    // show results
+    showResult(res);
+    // remove scanning UI
+    scanBtn.disabled = false; scanBtn.textContent = 'Run Safety Scan';
+    if(g && g.parentNode) g.parentNode.removeChild(g);
+  }, simulatedDelay);
+}
+
+scanBtn.addEventListener('click', doScan);
+
+clearBtn.addEventListener('click', ()=>{
+  emailArea.value = ''; updateCounters();
+  resultWrap.style.display = 'none';
+  kwList.innerHTML = ''; linksList.innerHTML = ''; aiExplain.textContent = 'Friendly explanation will appear here.';
+  spamProbEl.textContent = '—%'; phishProbEl.textContent='—%'; domainRepEl.textContent='—'; attachStatEl.textContent='—';
+});
+
+copyBtn.addEventListener('click', ()=>{
+  // copy summary and aiExplain
+  const txt = `${summaryText.textContent}\n${summarySub.textContent}\n\nKeywords: ${Array.from(kwList.children).map(n=>n.textContent).join(', ')}\n\nAI Explanation:\n${aiExplain.textContent}`;
+  navigator.clipboard.writeText(txt).then(()=>{ copyBtn.textContent = 'Copied'; setTimeout(()=>copyBtn.textContent='Copy Result',900); });
+});
+
+downloadBtn.addEventListener('click', ()=>{
+  const report = [];
+  report.push('MailAnalyzer Report');
+  report.push('Generated: ' + (new Date()).toLocaleString());
+  report.push('');
+  report.push('Summary: ' + summaryText.textContent);
+  report.push('Details: ' + summarySub.textContent);
+  report.push('');
+  report.push('Spam Prob: ' + spamProbEl.textContent);
+  report.push('Phish Prob: ' + phishProbEl.textContent);
+  report.push('Domain Rep: ' + domainRepEl.textContent);
+  report.push('Sender Ver: ' + senderVerEl.textContent);
+  report.push('');
+  report.push('Keywords: ' + (Array.from(kwList.children).map(n=>n.textContent).join(', ') || 'None'));
+  report.push('');
+  report.push('AI Explanation:');
+  report.push(aiExplain.textContent);
+  const blob = new Blob([report.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'mailanalyzer_report.txt'; document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+/* ============================
+   Theme toggle (Colorful/Subtle)
+   ============================ */
+const themeToggle = document.getElementById('themeToggle');
+let colorful = true;
+themeToggle.addEventListener('click', ()=>{
+  colorful = !colorful;
+  if(colorful){
+    document.documentElement.style.setProperty('--bg-dark','#0b0210');
+    themeToggle.textContent = 'Colorful Mode';
+  } else {
+    document.documentElement.style.setProperty('--bg-dark','#07060a');
+    themeToggle.textContent = 'Subtle Mode';
+  }
+});
+
+/* ============================
+   Init / load history
+   ============================ */
+renderHistory();
+updateHistoryChart();
+updateCounters();
+
+/* Shoulder tap: remember mode selection */
+modeQuick.style.opacity = 1; modeDeep.style.opacity = 0.85;
+
+/* allow enter+ctrl to scan quickly */
+emailArea.addEventListener('keydown',(e)=>{ if((e.ctrlKey||e.metaKey) && e.key==='Enter') doScan(); });
+
+/* simple accessibility: focus on textarea */
+emailArea.focus();
+
+/* END */
+</script>
+</body>
+</html>
