@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MailAnalyzer — Ultra Colorful + Advanced</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -146,6 +146,105 @@
   /* little sparkle animation for scan button */
   .glitter{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
   .glitter span{position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#fff,#ffd87a);opacity:.9;transform:translate3d(0,0,0)}
+
+   @media (max-width: 600px) {
+     body {
+       padding: 10px;
+     }
+
+     .container {
+       width: 100%;
+       padding: 15px !important;
+       margin: 0;
+       border-radius: 12px;
+     }
+
+     h1, h2, h3 {
+       font-size: 18px !important;
+     }
+
+     input, select, textarea, button {
+       width: 100% !important;
+       font-size: 16px !important;
+     }
+
+     .history-section {
+       max-height: 150px !important;
+     }
+   }
+/* -------------------------------------- */
+/* 🌈 SUPER COLORFUL THEME (ONLY THIS PART) */
+/* -------------------------------------- */
+/* Colorful Mode */
+.theme-colorful {
+  --bg: linear-gradient(135deg, #ff5acf, #ff8a3d, #ffe03d, #33ffbe, #5ac8ff, #b55aff);
+  --panel: rgba(255,255,255,0.25);
+  --text: #000000; /* default text black */
+  --accent: #ff27e4;
+  --accent2: #30d9ff;
+  --glow: 0 0 20px rgba(255,255,255,0.8);
+
+  background: var(--bg);
+  background-size: 400% 400%;
+  animation: rainbowFlow 15s ease infinite;
+  color: var(--text);
+}
+
+/* Force ALL text inside colorful mode to black */
+.theme-colorful * {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Panels, cards, boxes */
+.theme-colorful .card,
+.theme-colorful .box,
+.theme-colorful .panel {
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  border: 2px solid #ffffff66;
+  border-radius: 14px;
+  box-shadow: var(--glow);
+  padding: 16px;
+}
+
+/* Buttons */
+.theme-colorful button {
+  background: linear-gradient(135deg, #ff00c8, #ff7b00);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: 0.25s;
+}
+/* Make Quick/Deep buttons + keywords pills white in colorful mode */
+.theme-colorful .mode-chip,
+.theme-colorful .kw-pill {
+  color: #ffffff !important;
+}
+
+/* Inputs */
+.theme-colorful input,
+.theme-colorful textarea {
+  background: rgba(255,255,255,0.35);
+  border: 2px solid #ffffff80;
+  border-radius: 10px;
+  padding: 8px;
+  backdrop-filter: blur(6px);
+}
+
+/* Headings */
+.theme-colorful h1,
+.theme-colorful h2,
+.theme-colorful h3,
+.theme-colorful h4,
+.theme-colorful h5,
+.theme-colorful h6 {
+  text-shadow: none;
+}
+
+
 </style>
 </head>
 <body>
@@ -154,18 +253,45 @@
   <header>
     <div class="brand">
       <div class="logo" aria-hidden>
-        <!-- Luxury logo SVG -->
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="g" x1="0" x2="1">
-              <stop offset="0" stop-color="#ffd9ec"/>
-              <stop offset="1" stop-color="#ffb6d8"/>
-            </linearGradient>
-          </defs>
-          <rect x="4" y="6" rx="9" ry="9" width="40" height="36" fill="url(#g)"/>
-          <path d="M24 10 L30 22 L18 22 Z" fill="#8b064a" opacity="0.95"/>
-        </svg>
-      </div>
+  <!-- Cute pastel heart + sparkle logo -->
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+      <!-- Gradient for heart -->
+      <linearGradient id="heartGrad" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stop-color="#ffb3da"/>
+        <stop offset="100%" stop-color="#ff6fb0"/>
+      </linearGradient>
+
+      <!-- Gradient for bubble circle -->
+      <linearGradient id="bubbleGrad" x1="0" x2="1">
+        <stop offset="0%" stop-color="#ffe9f7"/>
+        <stop offset="100%" stop-color="#ffd1ef"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Soft bubble background -->
+    <circle cx="32" cy="32" r="26" fill="url(#bubbleGrad)" opacity="0.95" />
+
+    <!-- Cute rounded heart -->
+    <path
+      d="M32 44
+         C17 34, 16 22, 24 18
+         C28 16, 32 18, 32 20
+         C32 18, 36 16, 40 18
+         C48 22, 47 34, 32 44"
+      fill="url(#heartGrad)"
+      stroke="#ffffffaa"
+      stroke-width="2"
+    />
+
+    <!-- Small sparkle -->
+    <path d="M46 18 L48 22 L52 24 L48 26 L46 30 L44 26 L40 24 L44 22 Z"
+          fill="#fff6ff" opacity="0.9" />
+
+  </svg>
+</div>
+
       <div>
         <h1>MailAnalyzer</h1>
         <div class="ver">AI Email Safety Scanner — ultra-colorful + ultra-smart</div>
@@ -201,7 +327,7 @@
               <div class="mode-chip" id="modeQuick" data-mode="quick">Quick</div>
               <div class="mode-chip" id="modeDeep" data-mode="deep" style="background:linear-gradient(90deg,#3b001f,#5a0030)">Deep</div>
             </div>
-            <button id="scanBtn" class="btn secondary">Run Safety Scan</button>
+            <button id="scanBtn" class="btn secondary">Scan</button>
             <button id="clearBtn" class="btn ghost small">Clear</button>
             <button id="copyBtn" class="btn ghost small">Copy Result</button>
             <button id="downloadBtn" class="btn ghost small">Download Report</button>
@@ -252,8 +378,10 @@
         </div>
 
         <div style="margin-top:12px">
-          <canvas id="radarCanvas" width="400" height="220" style="height:160px"></canvas>
+        <canvas id="radarCanvas" width="400" height="220" style="height:160px"></canvas>
         </div>
+
+
       </div>
     </section>
 
@@ -291,11 +419,6 @@
       <div style="margin-top:12px">
         <div class="card-title">Scan History</div>
         <div class="history-list" id="historyList"></div>
-      </div>
-
-      <div style="margin-top:12px">
-        <div class="card-title">History Graph</div>
-        <canvas id="historyChart" width="300" height="120" style="height:90px"></canvas>
       </div>
 
       <footer>
@@ -378,7 +501,6 @@ const riskScoreEl = document.getElementById('riskScore');
 
 const historyListEl = document.getElementById('historyList');
 const radarCanvas = document.getElementById('radarCanvas');
-const historyChart = document.getElementById('historyChart');
 
 let currentMode = 'quick';
 
@@ -572,53 +694,115 @@ function drawRadar(breakdown){
   const ctx = c.getContext('2d');
   const W = c.width; const H = c.height;
   ctx.clearRect(0,0,W,H);
-  const centerX = W/2; const centerY = H/2; const maxR = Math.min(W,H)/2 - 16;
-  const labels = ['Links','Attachments','Sender','Keywords','SpamAvg'];
-  const values = [breakdown.linkRisk, breakdown.attachRisk, breakdown.senderRisk, breakdown.keywordRisk, breakdown.spamRisk].map(v => v/100);
-  const N = labels.length;
+  const centerX = W/2;
+const centerY = H/2;
+const maxR = Math.min(W,H)/2 - 16;
 
-  // grid
-  ctx.save();
-  ctx.translate(centerX, centerY);
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-  for(let r=1;r<=4;r++){
-    ctx.beginPath();
-    const rr = (r/4)*maxR;
-    for(let i=0;i<N;i++){
-      const ang = (Math.PI*2)*(i/N) - Math.PI/2;
-      const x = Math.cos(ang)*rr; const y = Math.sin(ang)*rr;
-      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    }
-    ctx.closePath(); ctx.stroke();
-  }
-  // axes & labels
-  ctx.fillStyle = '#ffdfe9'; ctx.font = '12px Inter';
-  for(let i=0;i<N;i++){
-    const ang = (Math.PI*2)*(i/N) - Math.PI/2;
-    const x = Math.cos(ang)* (maxR + 10);
-    const y = Math.sin(ang)* (maxR + 10);
-    ctx.fillText(labels[i], x - (labels[i].length*3), y+4);
-    // axis line
-    ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(ang)*maxR, Math.sin(ang)*maxR); ctx.stroke();
-  }
+const labels = ['Links','Attachments','Sender','Keywords','SpamAvg'];
+const values = [
+  breakdown.linkRisk,
+  breakdown.attachRisk,
+  breakdown.senderRisk,
+  breakdown.keywordRisk,
+  breakdown.spamRisk
+].map(v => v/100);
 
-  // polygon fill
+const N = labels.length;
+
+/* -----------------------------
+   GRID (NOW MORE VISIBLE)
+----------------------------- */
+ctx.save();
+ctx.translate(centerX, centerY);
+
+for(let r=1; r<=4; r++){
   ctx.beginPath();
+  const rr = (r/4) * maxR;
+  ctx.strokeStyle = 'rgba(255, 150, 200, 0.18)';
+  ctx.lineWidth = 1.2;
+
   for(let i=0;i<N;i++){
     const ang = (Math.PI*2)*(i/N) - Math.PI/2;
-    const r = values[i]*maxR;
-    const x = Math.cos(ang)*r; const y = Math.sin(ang)*r;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    const x = Math.cos(ang)*rr;
+    const y = Math.sin(ang)*rr;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
   }
   ctx.closePath();
-  // gradient fill
-  const grad = ctx.createLinearGradient(-maxR, -maxR, maxR, maxR);
-  grad.addColorStop(0, 'rgba(255,95,168,0.28)');
-  grad.addColorStop(1, 'rgba(212,175,55,0.18)');
-  ctx.fillStyle = grad; ctx.fill();
-  // stroke
-  ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth=2; ctx.stroke();
-  ctx.restore();
+  ctx.stroke();
+}
+
+/* -----------------------------
+   AXES LINES (VISIBLE)
+----------------------------- */
+for(let i=0;i<N;i++){
+  const ang = (Math.PI*2)*(i/N) - Math.PI/2;
+  const x = Math.cos(ang)* maxR;
+  const y = Math.sin(ang)* maxR;
+
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(x,y);
+  ctx.strokeStyle = 'rgba(255, 200, 230, 0.25)';
+  ctx.lineWidth = 1.3;
+  ctx.stroke();
+
+  // LABELS
+   const isColorful = document.body.classList.contains('theme-colorful');
+  ctx.fillStyle = isColorful ? '#000' : '#ffb6da';
+  ctx.font = "13px Poppins";
+  ctx.fillText(
+    labels[i],
+    x * 1.15 - ctx.measureText(labels[i]).width / 2,
+    y * 1.15 + 4
+  );
+}
+
+/* -----------------------------
+   RADAR POLYGON (SHINY + GRADIENT)
+----------------------------- */
+ctx.beginPath();
+for(let i=0;i<N;i++){
+  const ang = (Math.PI*2)*(i/N) - Math.PI/2;
+  const r = values[i] * maxR * 0.95;
+  const x = Math.cos(ang)*r;
+  const y = Math.sin(ang)*r;
+  if(i===0) ctx.moveTo(x,y);
+  else ctx.lineTo(x,y);
+}
+ctx.closePath();
+
+// glowing outline
+ctx.strokeStyle = 'rgba(255, 70, 160, 0.9)';
+ctx.lineWidth = 3.5;
+ctx.shadowColor = 'rgba(255, 70, 160, 0.7)';
+ctx.shadowBlur = 12;
+ctx.stroke();
+
+// pretty gradient fill
+const grd = ctx.createRadialGradient(0,0,0,0,0,maxR);
+grd.addColorStop(0, 'rgba(255, 100, 180, 0.45)');
+grd.addColorStop(1, 'rgba(255, 50, 160, 0.15)');
+ctx.fillStyle = grd;
+ctx.fill();
+
+/* -----------------------------
+   NODES (SMALL CIRCLES)
+----------------------------- */
+ctx.shadowBlur = 0; // reset
+for(let i=0;i<N;i++){
+  const ang = (Math.PI*2)*(i/N) - Math.PI/2;
+  const r = values[i] * maxR * 0.95;
+  const x = Math.cos(ang)*r;
+  const y = Math.sin(ang)*r;
+
+  ctx.beginPath();
+  ctx.arc(x, y, 5, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(255, 220, 240, 0.95)';
+  ctx.fill();
+}
+ctx.restore();
+
 }
 
 /* ============================
@@ -653,27 +837,7 @@ function renderHistory(){
   });
 }
 
-/* history chart */
-function updateHistoryChart(){
-  const data = loadHistory();
-  const ctx = historyChart.getContext('2d');
-  const W = historyChart.width; const H = historyChart.height;
-  ctx.clearRect(0,0,W,H);
-  if(data.length===0) return;
-  // plot last 12 overall risk points
-  const arr = data.slice(0,12).reverse().map(d=>d.overall);
-  const max = 100; const stepX = W / Math.max(1,arr.length-1 || 1);
-  ctx.beginPath(); ctx.moveTo(0, H - (arr[0]/max)*H);
-  for(let i=0;i<arr.length;i++){
-    ctx.lineTo(i*stepX, H - (arr[i]/max)*H);
-  }
-  ctx.strokeStyle = 'rgba(212,175,55,0.9)'; ctx.lineWidth=3; ctx.stroke();
-  // points
-  arr.forEach((v,i)=>{
-    ctx.beginPath(); ctx.arc(i*stepX, H - (v/max)*H, 3, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fill();
-  });
-}
+
 
 /* ============================
    Buttons: scan, clear, copy, download
@@ -693,16 +857,34 @@ function doScan(){
   const start = performance.now();
   const simulatedDelay = currentMode === 'deep' ? 1200 + Math.random()*900 : 600 + Math.random()*500;
 
-  setTimeout(()=>{
-    const res = analyzeText(text, currentMode);
-    const dur = Math.round(performance.now() - start);
-    document.getElementById('scanSpeed').textContent = (dur+simulatedDelay)+'ms';
-    // show results
-    showResult(res);
-    // remove scanning UI
-    scanBtn.disabled = false; scanBtn.textContent = 'Run Safety Scan';
-    if(g && g.parentNode) g.parentNode.removeChild(g);
-  }, simulatedDelay);
+  setTimeout(() => {
+  try {
+      const res = analyzeText(text, currentMode);
+      const dur = Math.round(performance.now() - start);
+
+      // Always update speed
+      const speedEl = document.getElementById('scanSpeed');
+      if (speedEl) speedEl.textContent = dur + 'ms';
+
+      // Run result safely
+      if (typeof showResult === "function") {
+          showResult(res);
+      }
+  }
+  catch (err) {
+      console.error("Scan error:", err);
+  }
+  finally {
+      // This ALWAYS runs no matter what happens above
+      scanBtn.disabled = false;
+      scanBtn.textContent = 'Run Safety Scan';
+
+      if (g && g.parentNode) {
+          g.parentNode.removeChild(g);
+      }
+  }
+}, simulatedDelay);
+
 }
 
 scanBtn.addEventListener('click', doScan);
@@ -747,16 +929,21 @@ downloadBtn.addEventListener('click', ()=>{
    Theme toggle (Colorful/Subtle)
    ============================ */
 const themeToggle = document.getElementById('themeToggle');
-let colorful = true;
-themeToggle.addEventListener('click', ()=>{
-  colorful = !colorful;
-  if(colorful){
-    document.documentElement.style.setProperty('--bg-dark','#0b0210');
-    themeToggle.textContent = 'Colorful Mode';
-  } else {
-    document.documentElement.style.setProperty('--bg-dark','#07060a');
-    themeToggle.textContent = 'Subtle Mode';
-  }
+let colorful = true; 
+
+themeToggle.addEventListener('click', () => {
+    colorful = !colorful;
+    if (colorful) {
+        // APPLY COLORFUL THEME 
+        document.body.classList.add('theme-colorful'); 
+        document.body.classList.remove('theme-subtle'); 
+        themeToggle.textContent = 'Colorful Mode';
+    } else { 
+        // APPLY SUBTLE THEME 
+        document.body.classList.remove('theme-colorful');
+        document.body.classList.add('theme-subtle'); 
+        themeToggle.textContent = 'Subtle Mode';
+    }
 });
 
 /* ============================
