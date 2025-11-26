@@ -374,6 +374,12 @@
               <div class="card-title">AI Explanation</div>
               <div id="aiExplain" style="margin-top:8px;color:var(--muted);font-size:13px">Friendly explanation will appear here.</div>
             </div>
+
+            <div id="linkScanBox" class="analysis-box">
+             <h3>🔗 Link Scanner</h3>
+             <ul id="linkList"></ul>
+            </div>
+
           </div>
         </div>
 
@@ -837,6 +843,42 @@ function renderHistory(){
   });
 }
 
+function scanLinks(text){
+  const linkBox = document.getElementById('linkList');
+  linkBox.innerHTML = "";
+
+  // Basic URL regex
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const links = text.match(urlRegex);
+
+  if(!links){
+    linkBox.innerHTML = "<li>No links found.</li>";
+    return;
+  }
+
+  links.forEach(url => {
+    const li = document.createElement('li');
+
+    // Detect suspicious patterns
+    let isBad =
+      url.includes(".zip") ||
+      url.includes(".exe") ||
+      url.includes("login") ||
+      url.includes("verify") ||
+      url.includes("@") ||
+      url.split("//")[1].split(".").length > 4;
+
+    // Display link with risk indicator
+    li.innerHTML = `
+      <strong>${url}</strong>
+      <span style="color:${isBad ? 'red' : 'green'}; font-weight:600;">
+        ${isBad ? "⚠ Suspicious" : "✔ Safe"}
+      </span>
+    `;
+
+    linkBox.appendChild(li);
+  });
+}
 
 
 /* ============================
@@ -864,6 +906,7 @@ function doScan() {
     g.appendChild(s);
   }
   scanBtn.appendChild(g);
+  scanLinks(text);
 
   const start = performance.now();
   const simulatedDelay = currentMode === 'deep' ? 1200 + Math.random() * 900 : 600 + Math.random() * 500;
@@ -897,7 +940,7 @@ function doScan() {
       }
 
     } catch (e) {
-      console.error('Scan failed:', e);
+      console.error('Scan failed:', e); 
     } finally {
       // Reset button after scan
       scanBtn.disabled = false;
