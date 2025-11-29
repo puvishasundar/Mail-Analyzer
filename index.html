@@ -142,6 +142,68 @@
     .wrap{grid-template-columns:1fr}
     .sidebar-panel{order:2}
   }
+  /* About Button */
+.about-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #e13ab2cf, #ff07b0);
+  color: rgb(246, 242, 244);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 0, 187, 0.499);
+  transition: 0.2s ease;
+}
+
+.about-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Popup background */
+.about-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 180, 220, 0.25);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Popup box */
+.about-content {
+  width: 85%;
+  max-width: 450px;
+  background: rgb(241, 0, 152);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  animation: popupShow 0.4s ease;
+  box-shadow: 0 15px 40px rgba(250, 0, 208, 0.921);
+  border: 2px solid rgba(195, 34, 249, 0.662);
+}
+
+/* Close button */
+.close-btn {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+  color: #d8f641;
+  font-weight: bold;
+}
+
+.creator-name {
+  color: #eaf345;
+  font-size: 18px;
+}
+
+/* Animation */
+@keyframes popupShow {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 
   /* little sparkle animation for scan button */
   .glitter{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
@@ -251,10 +313,11 @@
   <div class="particles" id="particles"></div>
 
   <header>
+  
     <div class="brand">
-      <div class="logo" aria-hidden>
-  <!-- Cute pastel heart + sparkle logo -->
-  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <img src="logo.png" class="logo" alt="Mail Analyzer Logo">
+      <h1>MailAnalyzer</h1>
+    </div>
 
     <defs>
       <!-- Gradient for heart -->
@@ -426,13 +489,48 @@
         <div class="card-title">Scan History</div>
         <div class="history-list" id="historyList"></div>
       </div>
-
+          <button class="about-btn" id="openAbout">About</button>
+            <!-- ABOUT POPUP -->
+            <div class="about-popup" id="aboutPopup">
+              <div class="about-content">
+               <span class="close-btn" id="closeAbout">&times;</span>
+               <h2>About MailAnalyzer</h2>
+               <p class="about-text">
+                MailAnalyzer is a cute, colorful and powerful email checking tool designed to make
+                scanning safe, fun and fast.  
+                <br><br>
+                This website was created by  
+                <strong class="creator-name">✨ Puvisha Sundar ✨</strong>  
+                with a luxury theme, has many features and smooth animations.
+               </p>
+              </div>
+            </div>
       <footer>
         <div style="color:var(--muted)">Tip: Always verify suspicious links via separate channels.</div>
         <div style="color:var(--muted);font-size:12px">© MailAnalyzer</div>
       </footer>
     </aside>
   </div>
+<script>
+  const openAbout = document.getElementById("openAbout");
+  const closeAbout = document.getElementById("closeAbout");
+  const aboutPopup = document.getElementById("aboutPopup");
+
+  openAbout.addEventListener("click", () => {
+    aboutPopup.style.display = "flex";
+  });
+
+  closeAbout.addEventListener("click", () => {
+    aboutPopup.style.display = "none";
+  });
+
+  // Close when clicking outside the popup
+  window.addEventListener("click", (e) => {
+    if (e.target === aboutPopup) {
+      aboutPopup.style.display = "none";
+    }
+  });
+</script>
 
 <script>
 /* ============================
