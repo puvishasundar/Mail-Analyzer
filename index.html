@@ -310,6 +310,7 @@
 </style>
 </head>
 <body>
+
   <div class="particles" id="particles"></div>
 
   <header>
@@ -354,20 +355,35 @@
 
   </svg>
 </div>
-
+          <button class="about-btn" id="openAbout">About</button>
+            <!-- ABOUT POPUP -->
+            <div class="about-popup" id="aboutPopup">
+              <div class="about-content">
+               <span class="close-btn" id="closeAbout">&times;</span>
+               <h2>About MailAnalyzer</h2>
+               <p class="about-text">
+                MailAnalyzer is a cute, colorful and powerful email checking tool designed to make
+                scanning safe, fun and fast.  
+                <br><br>
+                This website was created by  
+                <strong class="creator-name">✨ Puvisha Sundar ✨</strong>  
+                with a luxury theme, has many features and smooth animations.
+               </p>
+              </div>
+            </div>
       <div>
         <h1>MailAnalyzer</h1>
-        <div class="ver">AI Email Safety Scanner — ultra-colorful + ultra-smart</div>
+        <div class="ver">AI Email Safety Scanner </div>
       </div>
     </div>
     <div>
       <div style="display:flex;gap:10px;align-items:center">
-        <div class="ver">v2.1 • Offline demo</div>
+        <div class="ver">Offline demo</div>
         <button id="themeToggle" class="btn small ghost" title="Toggle theme">Colorful Mode</button>
       </div>
     </div>
   </header>
-
+ 
   <div class="wrap">
     <!-- LEFT: MAIN -->
     <section class="panel" aria-labelledby="mainTitle" id="mainPanel">
@@ -377,7 +393,7 @@
           <p>Paste headers + body (or sample text). Click <strong>Scan</strong> (Quick/Deep) for advanced offline analysis.</p>
         </div>
         <div style="text-align:right">
-          <div class="ver">Ultra-luxe • Feminine • Secure</div>
+          <div class="ver">Ultra-luxe • Secure</div>
         </div>
       </div>
 
@@ -394,6 +410,7 @@
             <button id="clearBtn" class="btn ghost small">Clear</button>
             <button id="copyBtn" class="btn ghost small">Copy Result</button>
             <button id="downloadBtn" class="btn ghost small">Download Report</button>
+         
           </div>
 
           <div style="margin-left:auto;text-align:right">
@@ -460,7 +477,7 @@
         <div style="font-weight:700">Analysis Dashboard</div>
         <div style="font-size:12px;color:var(--muted)">Local • Demo</div>
       </div>
-
+          
       <div class="dashboard-grid">
         <div class="dashboard-card">
           <div class="card-title">Spam Probability</div>
@@ -489,22 +506,7 @@
         <div class="card-title">Scan History</div>
         <div class="history-list" id="historyList"></div>
       </div>
-          <button class="about-btn" id="openAbout">About</button>
-            <!-- ABOUT POPUP -->
-            <div class="about-popup" id="aboutPopup">
-              <div class="about-content">
-               <span class="close-btn" id="closeAbout">&times;</span>
-               <h2>About MailAnalyzer</h2>
-               <p class="about-text">
-                MailAnalyzer is a cute, colorful and powerful email checking tool designed to make
-                scanning safe, fun and fast.  
-                <br><br>
-                This website was created by  
-                <strong class="creator-name">✨ Puvisha Sundar ✨</strong>  
-                with a luxury theme, has many features and smooth animations.
-               </p>
-              </div>
-            </div>
+
       <footer>
         <div style="color:var(--muted)">Tip: Always verify suspicious links via separate channels.</div>
         <div style="color:var(--muted);font-size:12px">© MailAnalyzer</div>
